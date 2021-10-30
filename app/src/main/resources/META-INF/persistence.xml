@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.1"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+    <persistence-unit name="my-persistence-unit">
+        <description>Hibernate Tips</description>
+        <jar-file>app.jar</jar-file>
+        <class>io.licitat.hiberplay.model.Post</class>
+        <class>io.licitat.hiberplay.model.Tag</class>
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+        <properties>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL94Dialect" />
+            <property name="hibernate.hbm2ddl.auto" value="create" />
+            <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
+            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/postman" />
+            <property name="javax.persistence.jdbc.user" value="postman" />
+            <property name="javax.persistence.jdbc.password" value="postman" />
+
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="false"/>
+            <property name="hibernate.use_sql_comments" value="false"/>
+
+            <property name="org.hibernate.envers.default_schema" value="audit" />
+        </properties>
+    </persistence-unit>
+</persistence>
