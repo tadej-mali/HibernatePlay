@@ -1,15 +1,10 @@
 package io.licitat.hiberplay.plays;
 
 import com.google.common.base.Supplier;
-import io.licitat.hiberplay.model.RtFractionGroup;
-import io.licitat.hiberplay.model.RtBeam;
-import io.licitat.hiberplay.model.RtFractionGroup_;
-import io.licitat.hiberplay.model.RtPlan;
+import io.licitat.hiberplay.model.*;
 
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 
 
 import static java.util.Comparator.comparingInt;
@@ -77,10 +72,17 @@ public class RtPlanAdventures implements Runnable {
 
             CriteriaQuery<RtFractionGroup> queryTree = builder.createQuery(RtFractionGroup.class);
             Root<RtFractionGroup> root = queryTree.from(RtFractionGroup.class);
+            var join = root.join(RtFractionGroup_.beams);
+            join.on(builder.equal(join.get(RtBeam_.fractionGroup).get(RtFractionGroup_.id), root.get(RtFractionGroup_.id)));
 
-            queryTree.where(builder.equal(root.get(RtFractionGroup_.ID), savedFractionGroupId));
+            // https://stackoverflow.com/a/36869943/1010666
+            ParameterExpression<Long> fgId = builder.parameter(Long.class);
+            queryTree.where(builder.equal(root.get(RtFractionGroup_.id), fgId));
 
-            RtFractionGroup loadedFg = em.createQuery(queryTree).getSingleResult();
+            RtFractionGroup loadedFg = em
+                .createQuery(queryTree)
+                .setParameter(fgId, savedFractionGroupId)
+                .getSingleResult();
             System.out.println("I've just loaded FG: " + loadedFg.getName() + " of plan ID: " + loadedFg.getPlan().getId());
         });
 
@@ -91,6 +93,5 @@ public class RtPlanAdventures implements Runnable {
 
             em.merge(savedPlan);
         });
-
     }
 }
