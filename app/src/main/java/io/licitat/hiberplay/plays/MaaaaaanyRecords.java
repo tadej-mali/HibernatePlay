@@ -1,6 +1,5 @@
 package io.licitat.hiberplay.plays;
 
-import com.google.common.base.Supplier;
 import io.licitat.hiberplay.model.Post;
 
 import javax.persistence.EntityManagerFactory;
@@ -8,6 +7,7 @@ import javax.persistence.EntityManagerFactory;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
+import java.util.function.Supplier;
 
 import static org.hibernate.testing.transaction.TransactionUtil.doInJPA;
 

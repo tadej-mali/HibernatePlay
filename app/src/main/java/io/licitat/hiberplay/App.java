@@ -3,13 +3,13 @@
  */
 package io.licitat.hiberplay;
 
-import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 import io.licitat.hiberplay.plays.RtPlanAdventures;
 import io.licitat.hiberplay.plays.SaveLinkAndDelete;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.util.function.Supplier;
 
 public class App {
 

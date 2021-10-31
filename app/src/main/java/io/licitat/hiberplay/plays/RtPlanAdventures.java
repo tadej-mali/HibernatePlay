@@ -1,11 +1,12 @@
 package io.licitat.hiberplay.plays;
 
-import com.google.common.base.Supplier;
 import io.licitat.hiberplay.model.*;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.criteria.*;
 
+
+import java.util.function.Supplier;
 
 import static java.util.Comparator.comparingInt;
 import static org.hibernate.testing.transaction.TransactionUtil.doInJPA;

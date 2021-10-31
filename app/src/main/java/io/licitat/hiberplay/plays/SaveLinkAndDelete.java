@@ -1,12 +1,12 @@
 package io.licitat.hiberplay.plays;
 
-import com.google.common.base.Supplier;
 import io.licitat.hiberplay.model.Post;
 import io.licitat.hiberplay.model.Tag;
 
 import javax.persistence.EntityManagerFactory;
 
 import java.util.ArrayList;
+import java.util.function.Supplier;
 
 import static org.hibernate.testing.transaction.TransactionUtil.doInJPA;
 
