@@ -1,8 +1,10 @@
 package io.licitat.hiberplay.model;
 
+import io.licitat.hiberplay.persistence.DasGenerator;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,9 +12,13 @@ import java.util.Set;
 @Entity(name = "Post")
 @Table(name = "post")
 public class Post {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = DasGenerator.NAME)
+    @SequenceGenerator(
+        name = DasGenerator.NAME,
+        sequenceName = DasGenerator.SEQUENCE_NAME,
+        initialValue = DasGenerator.INITIAL_VALUE, allocationSize = DasGenerator.ALLOCATION_SIZE
+    )
     private Long id;
 
     private String title;

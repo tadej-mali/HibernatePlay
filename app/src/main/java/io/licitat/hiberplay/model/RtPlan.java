@@ -1,5 +1,6 @@
 package io.licitat.hiberplay.model;
 
+import io.licitat.hiberplay.persistence.DasGenerator;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
@@ -41,7 +42,7 @@ public class RtPlan {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = DasGenerator.NAME)
     private Long id;
 
     private String name;

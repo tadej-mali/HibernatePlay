@@ -1,5 +1,6 @@
 package io.licitat.hiberplay.model;
 
+import io.licitat.hiberplay.persistence.DasGenerator;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
@@ -8,10 +9,10 @@ import java.util.*;
 @Audited
 @Entity(name = "Tag")
 @Table(name = "tag")
-public class Tag {
+public class Tag implements DasGenerator {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = DasGenerator.NAME)
     private Long id;
 
     private String name;
