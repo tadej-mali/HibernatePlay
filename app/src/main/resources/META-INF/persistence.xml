@@ -4,9 +4,12 @@
              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
     <persistence-unit name="my-persistence-unit">
         <description>Hibernate Tips</description>
-        <jar-file>app.jar</jar-file>
+        <jar-file>file:../target/classes</jar-file>
         <class>io.licitat.hiberplay.model.Post</class>
         <class>io.licitat.hiberplay.model.Tag</class>
+        <class>io.licitat.hiberplay.model.RtPlan</class>
+        <class>io.licitat.hiberplay.model.RtFractionGroup</class>
+        <class>io.licitat.hiberplay.model.RtBeam</class>
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL94Dialect" />

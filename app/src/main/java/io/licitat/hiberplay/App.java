@@ -5,15 +5,10 @@ package io.licitat.hiberplay;
 
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
-import io.licitat.hiberplay.model.Post;
-import io.licitat.hiberplay.model.Tag;
-import io.licitat.hiberplay.plays.MaaaaaanyRecords;
-import io.licitat.hiberplay.plays.SaveLinkAndDelete;
+import io.licitat.hiberplay.plays.RtPlanAdventures;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-
-import static org.hibernate.testing.transaction.TransactionUtil.doInJPA;
 
 public class App {
 
@@ -51,8 +46,8 @@ public class App {
         */
 
         //new SaveLinkAndDelete(factorySupplier).run();
-
-        new MaaaaaanyRecords(factorySupplier).run();
+        //new MaaaaaanyRecords(factorySupplier).run();
+        new RtPlanAdventures(factorySupplier).run();
     }
 
 
