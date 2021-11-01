@@ -96,7 +96,7 @@ public class RtPlanAdventures implements Runnable {
 
             CriteriaQuery<RtFractionGroup> queryTree = builder.createQuery(RtFractionGroup.class);
             Root<RtFractionGroup> root = queryTree.from(RtFractionGroup.class);
-            var join = root.join(RtFractionGroup_.beams);
+            ListJoin<RtFractionGroup, RtBeam> join = root.join(RtFractionGroup_.beams);
             join.on(builder.equal(join.get(RtBeam_.fractionGroup).get(RtFractionGroup_.id), root.get(RtFractionGroup_.id)));
 
             // https://stackoverflow.com/a/36869943/1010666
