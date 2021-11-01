@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Audited
 @Entity()
@@ -88,6 +89,13 @@ public class RtPlan {
     public void removeFractionGroup(RtFractionGroup group) {
         group.setPlan(null);
         this.fractionGroups.remove(group);
+    }
+
+    public Optional<RtFractionGroup> findGroupById(Long fgId) {
+        if (fgId == null) { return Optional.empty(); }
+        return this.fractionGroups.stream()
+            .filter(fg -> Objects.equals(fgId, fg.getId()))
+            .findFirst();
     }
 
     @Override

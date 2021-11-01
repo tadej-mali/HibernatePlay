@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Audited
 @Entity()
@@ -100,6 +101,14 @@ public class RtFractionGroup {
         beam.setFractionGroup(null);
         this.beams.remove(beam);
     }
+
+    public Optional<RtBeam> findBeamById(Long beamId) {
+        if (beamId == null) { return Optional.empty(); }
+        return this.beams.stream()
+            .filter(b -> Objects.equals(beamId, b.getId()))
+            .findFirst();
+    }
+
 
     @Override
     public boolean equals(Object o) {

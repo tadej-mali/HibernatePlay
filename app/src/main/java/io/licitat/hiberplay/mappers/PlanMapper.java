@@ -61,9 +61,8 @@ public class PlanMapper {
             .map(BeamDTO::getNumber, RtBeam::setNumber);
 
         dto.getFractionGroups().forEach(fg -> {
-            dbPlan.getFractionGroups().stream()
-                .filter(x -> x.getId().equals(fg.getId()))
-                .findAny()
+            dbPlan
+                .findGroupById(fg.getId())
                 .ifPresent(fgDb -> {
                     fgMapper.map(fg, fgDb);
 
