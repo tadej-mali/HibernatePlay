@@ -43,6 +43,7 @@ public class RtPlanAdventures implements Runnable {
     @Override
     public void run() {
 
+        // Build and save large plan
         Long savedFractionGroupId = doInJPA(factorySupplier, em -> {
             RtPlan aPlan = buildTestPlan();
             em.persist(aPlan);
@@ -50,6 +51,7 @@ public class RtPlanAdventures implements Runnable {
             return aPlan.getFractionGroups().get(0).getId();
         });
 
+        // Load saved plan to check lazy loading
         Long savedPlanId = doInJPA(factorySupplier, em -> {
             RtFractionGroup loadedFg = em.find(RtFractionGroup.class, savedFractionGroupId);
 
@@ -62,6 +64,7 @@ public class RtPlanAdventures implements Runnable {
             return loadedFg.getPlan().getId();
         });
 
+        // Add a beam
         doInJPA(factorySupplier, em -> {
             RtPlan savedPlan = em.find(RtPlan.class, savedPlanId);
 
@@ -69,9 +72,24 @@ public class RtPlanAdventures implements Runnable {
                 new RtBeam.Builder().setName("Neck Top").setNumber(5).createRtBeam()
             );
 
+            // Reordering does not trigger massive reloading
             savedPlan.getFractionGroups().get(1).getBeams().sort(comparingInt(RtBeam::getNumber).reversed());
         });
 
+        // Add transient fraction group wit a single beam
+        doInJPA(factorySupplier, em -> {
+            RtPlan savedPlan = em.find(RtPlan.class, savedPlanId);
+
+            RtFractionGroup thirdGroup = savedPlan.addFractionGroup(
+                new RtFractionGroup.Builder().setName("RadRx Torso").setNumber(3).createFractionGroup()
+            );
+            thirdGroup.addBeam(new RtBeam.Builder().setName("Torso Right").setNumber(6).createRtBeam());
+            thirdGroup.addBeam(new RtBeam.Builder().setName("Torso Left").setNumber(7).createRtBeam());
+
+            em.merge(savedPlan);
+        });
+
+        // Explore dynamic query building
         doInJPA(factorySupplier, em -> {
 
             CriteriaBuilder builder = em.getCriteriaBuilder();
@@ -93,6 +111,7 @@ public class RtPlanAdventures implements Runnable {
         });
 
 
+        // Delete a fraction group - beam deletion triggered in cascade
         doInJPA(factorySupplier, em -> {
             RtPlan savedPlan = em.find(RtPlan.class, savedPlanId);
             savedPlan.removeFractionGroup(savedPlan.getFractionGroups().get(1));
