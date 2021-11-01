@@ -19,30 +19,35 @@ public class RtPlanAdventures implements Runnable {
         this.factorySupplier = factorySupplier;
     }
 
+    public static RtPlan buildTestPlan() {
+        RtPlan aPlan = new RtPlan.Builder()
+            .setName("Full Cranio Spinal")
+            .setPatientId("LIC-MAN-0001")
+            .createRtPlan();
+
+        RtFractionGroup firstGroup = aPlan.addFractionGroup(
+            new RtFractionGroup.Builder().setName("RadRx Head").setNumber(1).createFractionGroup()
+        );
+        firstGroup.addBeam(new RtBeam.Builder().setName("Head Right").setNumber(1).createRtBeam());
+        firstGroup.addBeam(new RtBeam.Builder().setName("Head Left").setNumber(2).createRtBeam());
+
+        RtFractionGroup secondGroup = aPlan.addFractionGroup(
+            new RtFractionGroup.Builder().setName("RadRx Neck").setNumber(2).createFractionGroup()
+        );
+        secondGroup.addBeam(new RtBeam.Builder().setName("Neck Right").setNumber(3).createRtBeam());
+        secondGroup.addBeam(new RtBeam.Builder().setName("Neck Left").setNumber(4).createRtBeam());
+
+        return aPlan;
+    }
+
     @Override
     public void run() {
 
         Long savedFractionGroupId = doInJPA(factorySupplier, em -> {
-            RtPlan aPlan = new RtPlan.Builder()
-                .setName("Full Cranio Spinal")
-                .setPatientId("LIC-MAN-0001")
-                .createRtPlan();
-
-            RtFractionGroup firstGroup = aPlan.addFractionGroup(
-                new RtFractionGroup.Builder().setName("RadRx Head").setNumber(1).createFractionGroup()
-            );
-            firstGroup.addBeam(new RtBeam.Builder().setName("Head Right").setNumber(1).createRtBeam());
-            firstGroup.addBeam(new RtBeam.Builder().setName("Head Left").setNumber(2).createRtBeam());
-
-            RtFractionGroup secondGroup = aPlan.addFractionGroup(
-                new RtFractionGroup.Builder().setName("RadRx Neck").setNumber(2).createFractionGroup()
-            );
-            secondGroup.addBeam(new RtBeam.Builder().setName("Neck Right").setNumber(3).createRtBeam());
-            secondGroup.addBeam(new RtBeam.Builder().setName("Neck Left").setNumber(4).createRtBeam());
-
+            RtPlan aPlan = buildTestPlan();
             em.persist(aPlan);
 
-            return firstGroup.getId();
+            return aPlan.getFractionGroups().get(0).getId();
         });
 
         Long savedPlanId = doInJPA(factorySupplier, em -> {
